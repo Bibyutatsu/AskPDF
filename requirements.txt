@@ -1,0 +1,11 @@
+streamlit
+pymupdf
+langchain
+cohere
+faiss-cpu
+openai
+docx2txt
+pillow
+tenacity
+tiktoken
+thefuzz[speedup]
