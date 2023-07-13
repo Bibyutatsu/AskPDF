@@ -210,9 +210,11 @@ def get_matches(text_blocks, text):
 
 def draw_rect(img, list_of_coords):
     img = img.copy()
-    draw = ImageDraw.Draw(img)
+    overlay = Image.new('RGBA', img.size, (0,0,0,0))
+    draw = ImageDraw.Draw(overlay)
     for coords in list_of_coords:
-        draw.rectangle(coords, outline="black")
+        draw.rectangle(coords, fill=(255, 255, 0, 100))
+    img = Image.alpha_composite(img, overlay)
     return img
 
 @st.cache_data(hash_funcs={Document: hash_func})
