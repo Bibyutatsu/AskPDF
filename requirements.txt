@@ -9,3 +9,5 @@ pillow
 tenacity
 tiktoken
 thefuzz[speedup]
+nlpcloud
+sentence_transformers
