@@ -57,7 +57,7 @@ def parse_pdf(file: BytesIO) -> List[str]:
         output.append(text)
         
         ### Read images
-        pix = get_image(page.get_pixmap())
+        pix = get_image(page.get_pixmap(alpha=True))
         images.append(pix)
         
         ### Read TextBlocks
@@ -175,7 +175,7 @@ def get_sources(answer: Dict[str, Any], docs: List[Document]) -> List[Document]:
 
 
 def get_image(pix_map):
-    img = Image.frombytes("RGB", [pix_map.width, pix_map.height], pix_map.samples)
+    img = Image.frombytes("RGBA", [pix_map.width, pix_map.height], pix_map.samples)
     return img
 
 @st.cache_data()
@@ -210,9 +210,11 @@ def get_matches(text_blocks, text):
 
 def draw_rect(img, list_of_coords):
     img = img.copy()
-    draw = ImageDraw.Draw(img)
+    overlay = Image.new('RGBA', img.size, (0,0,0,0))
+    draw = ImageDraw.Draw(overlay)
     for coords in list_of_coords:
-        draw.rectangle(coords, outline="black")
+        draw.rectangle(coords, fill=(255, 255, 0, 100))
+    img = Image.alpha_composite(img, overlay)
     return img
 
 @st.cache_data(hash_funcs={Document: hash_func})
